@@ -17,7 +17,7 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-app.post('/create', (req, res) => {
+app.post('/user/create', (req, res) => {
   const name = req.body.name;
   const password = req.body.password;
 
