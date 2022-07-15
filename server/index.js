@@ -2,11 +2,21 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 
+require("dotenv").config();
+
 const app = express();
+const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(cors());
 
-app.listen(3001, () => {
-  console.log(`server running at 3001 port`);
+const db = mysql.createConnection({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
+app.listen(PORT, () => {
+  console.log(`server running at ${PORT} port`);
 });
