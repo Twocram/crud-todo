@@ -34,6 +34,20 @@ app.post('/create', (req, res) => {
   );
 });
 
+app.get('/users/:name&:password', (req, res) => {
+  db.query(
+    'SELECT * FROM users WHERE name = ? AND password = ?',
+    [req.params.name, req.params.password],
+    (err, result) => {
+      if (err) {
+        throw new Error(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
 app.listen(PORT, () => {
   console.log(`server running at ${PORT} port`);
 });
