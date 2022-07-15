@@ -1,8 +1,8 @@
-const express = require("express");
-const mysql = require("mysql");
-const cors = require("cors");
+const express = require('express');
+const mysql = require('mysql');
+const cors = require('cors');
 
-require("dotenv").config();
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT;
@@ -15,6 +15,23 @@ const db = mysql.createConnection({
   host: process.env.DB_HOST,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+});
+
+app.post('/create', (req, res) => {
+  const name = req.body.name;
+  const password = req.body.password;
+
+  db.query(
+    'INSERT INTO users (name, password) VALUES(?,?)',
+    [name, password],
+    (err, result) => {
+      if (err) {
+        throw new Error(err);
+      } else {
+        res.send('Values inserted');
+      }
+    }
+  );
 });
 
 app.listen(PORT, () => {
