@@ -5,7 +5,7 @@ import Error from './pages/404';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
 import Reg from './pages/Reg';
-import Layout from './Layout';
+import Layout from './components/Layout/Layout';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,7 +16,7 @@ root.render(
     <BrowserRouter>
       <Layout>
         <Routes>
-          <Route path='/home/:id' element={<Home />} />
+          <Route path='/users/:id' element={<Home />} />
           <Route path='/reg' element={<Reg />} />
           <Route path='/auth' element={<Auth />} />
           <Route path='*' element={<Error />} />
