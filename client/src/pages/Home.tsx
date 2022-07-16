@@ -1,12 +1,17 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IUser } from '../types/types';
+import Form from '../components/Form/Form';
+import { IUser, ITodo } from '../types/types';
+import axios from 'axios';
 
 type Props = {};
 
 const Home: FC<Props> = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const [todo, setTodo] = useState<ITodo>({
+    title: '',
+  });
   const [user, setUser] = useState<IUser>(
     JSON.parse(localStorage.getItem('user') as string)
   );
@@ -24,6 +29,23 @@ const Home: FC<Props> = () => {
     }
   }, [user]);
 
+  const createTask = () => {
+    axios
+      .post('http://localhost:3001/api/todos/create', {
+        title: todo.title,
+        id_user: params.id,
+      })
+      .then(() => {
+        console.log('task created');
+      });
+  };
+
+  const getTasks = () => {
+    axios.get(`http://localhost:3001/api/todos/${params.id}`).then((res) => {
+      console.log(res.data);
+    });
+  };
+
   const Logout = () => {
     localStorage.removeItem('user');
     navigate('/auth');
@@ -32,6 +54,17 @@ const Home: FC<Props> = () => {
     <div>
       Page of user with id: {params.id}
       <button onClick={Logout}>Logout</button>
+      <Form>
+        <input
+          type='text'
+          placeholder='title'
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setTodo({ ...todo, title: e.target.value })
+          }
+        />
+        <button onClick={createTask}>Create task</button>
+        <button onClick={getTasks}>Get task</button>
+      </Form>
     </div>
   );
 };
