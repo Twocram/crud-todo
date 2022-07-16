@@ -17,7 +17,7 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-app.post('/user/create', (req, res) => {
+app.post('/api/users/create', (req, res) => {
   const name = req.body.name;
   const password = req.body.password;
 
@@ -34,7 +34,7 @@ app.post('/user/create', (req, res) => {
   );
 });
 
-app.get('/users/:name&:password', (req, res) => {
+app.get('/api/users/:name&:password', (req, res) => {
   db.query(
     'SELECT * FROM users WHERE name = ? AND password = ?',
     [req.params.name, req.params.password],
@@ -46,6 +46,10 @@ app.get('/users/:name&:password', (req, res) => {
       }
     }
   );
+});
+
+app.post('/api/tasks/create', (req, res) => {
+  db.query('INSERT INTO user (title) VALUES (?)');
 });
 
 app.listen(PORT, () => {
