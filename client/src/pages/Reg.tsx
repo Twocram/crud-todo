@@ -16,7 +16,7 @@ const Reg: FC<Props> = () => {
   const createUser = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     axios
-      .post('http://localhost:3001/create', {
+      .post('http://localhost:3001/api/users/create', {
         name: user.name,
         password: user.password,
       })
