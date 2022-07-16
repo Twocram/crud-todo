@@ -62,6 +62,20 @@ app.post('/api/todos/create', (req, res) => {
     };
 });
 
+app.get('/api/todos/:id_user', (req, res) => {
+  db.query(
+    'SELECT * FROM todos WHERE id_user = ?',
+    [req.params.id_user],
+    (err, result) => {
+      if (err) {
+        throw new Error(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
 app.listen(PORT, () => {
   console.log(`server running at ${PORT} port`);
 });
