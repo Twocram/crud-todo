@@ -12,6 +12,7 @@ const Home: FC<Props> = () => {
   const [todo, setTodo] = useState<ITodo>({
     title: '',
   });
+  const [todoList, setTodoList] = useState<ITodo[]>([]);
   const [user, setUser] = useState<IUser>(
     JSON.parse(localStorage.getItem('user') as string)
   );
@@ -19,11 +20,9 @@ const Home: FC<Props> = () => {
     localStorage.setItem('test', 'test');
     if (user) {
       const { id }: IUser = user;
-
       if (!(id === Number(params.id))) {
         navigate('/auth');
       }
-      // console.log(JSON.parse(localStorage.getItem('user') as string));
     } else {
       navigate('/auth');
     }
@@ -42,7 +41,7 @@ const Home: FC<Props> = () => {
 
   const getTasks = () => {
     axios.get(`http://localhost:3001/api/todos/${params.id}`).then((res) => {
-      console.log(res.data);
+      setTodoList(res.data);
     });
   };
 
@@ -64,6 +63,15 @@ const Home: FC<Props> = () => {
         />
         <button onClick={createTask}>Create task</button>
         <button onClick={getTasks}>Get task</button>
+        <ul>
+          {todoList.length > 0 &&
+            todoList.map((todo) => (
+              <li key={todo.id}>
+                {todo.title} <button>Delete</button>
+              </li>
+            ))}
+        </ul>
+        {!todoList.length && <div>List is clear</div>}
       </Form>
     </div>
   );
