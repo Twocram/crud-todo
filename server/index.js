@@ -48,8 +48,18 @@ app.get('/api/users/:name&:password', (req, res) => {
   );
 });
 
-app.post('/api/tasks/create', (req, res) => {
-  db.query('INSERT INTO user (title) VALUES (?)');
+app.post('/api/todos/create', (req, res) => {
+  db.query('INSERT INTO todos (title, id_user) VALUES (?, ?)', [
+    req.body.title,
+    req.body.id_user,
+  ]),
+    (err, result) => {
+      if (err) {
+        throw new Error(err);
+      } else {
+        res.send('Task created');
+      }
+    };
 });
 
 app.listen(PORT, () => {
