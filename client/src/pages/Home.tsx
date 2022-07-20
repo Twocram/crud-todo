@@ -45,13 +45,19 @@ const Home: FC<Props> = () => {
     });
   };
 
+  const deleteTask = (id: number) => {
+    setTodoList(todoList.filter((todo: ITodo) => todo.id !== id));
+    axios
+      .delete(`http://localhost:3001/api/todos/${id}&${params.id}`)
+      .then(() => {});
+  };
+
   const Logout = () => {
     localStorage.removeItem('user');
     navigate('/auth');
   };
   return (
     <div>
-      Page of user with id: {params.id}
       <button onClick={Logout}>Logout</button>
       <Form>
         <input
@@ -67,10 +73,14 @@ const Home: FC<Props> = () => {
           {todoList.length > 0 &&
             todoList.map((todo) => (
               <li key={todo.id}>
-                {todo.title} <button>Delete</button>
+                {todo.title}{' '}
+                <button onClick={() => deleteTask(Number(todo.id))}>
+                  Delete
+                </button>
               </li>
             ))}
         </ul>
+
         {!todoList.length && <div>List is clear</div>}
       </Form>
     </div>
