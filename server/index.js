@@ -76,6 +76,13 @@ app.get('/api/todos/:id_user', (req, res) => {
   );
 });
 
+app.delete('/api/todos/:id&:id_user', (req, res) => {
+  db.query('DELETE FROM todos WHERE id = ? AND id_user = ?', [
+    req.params.id,
+    req.params.id_user,
+  ]);
+});
+
 app.listen(PORT, () => {
   console.log(`server running at ${PORT} port`);
 });
